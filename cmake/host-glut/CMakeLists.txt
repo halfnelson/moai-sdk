@@ -34,7 +34,7 @@ add_executable ( moai
   ${CMAKE_CURRENT_SOURCE_DIR}/GlutHostMain.cpp
 )
 
-target_link_libraries ( moai 
+target_link_libraries ( moai GL
   moai-sim
   moai-util
   moai-core
@@ -104,7 +104,7 @@ ADD_FRAMEWORKS(moai "${FWORKS}")
 endif ( BUILD_OSX )
 
 
-target_link_libraries ( moai 
+target_link_libraries ( moai GL
   third-party
 )
 if (MOAI_LUAEXT)

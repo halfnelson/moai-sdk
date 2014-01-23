@@ -54,6 +54,7 @@ file ( GLOB SRC_ZLCORE "${CMAKE_CURRENT_SOURCE_DIR}/zl-*/*.cpp" )
 include_directories ( ${ZLCORE_INCLUDES} )
 
 add_library ( zlcore STATIC ${SRC_ZLCORE} )
+target_link_libraries ( zlcore GL )
 
 if (BUILD_WINDOWS)
   target_link_libraries ( zlcore iphlpapi) #GetAdaptersAddresses
