@@ -1,4 +1,4 @@
-cmake_minimum_required ( VERSION 2.8.5 )
+cmake_minimum_required ( VERSION 2.8.11 )
 project ( moai-iphone )
 
 set (LINK_LIBS "")
@@ -31,7 +31,7 @@ file ( GLOB MOAI_IPHONE_SRC
 if (NOT DISABLE_TAPJOY )
   set (LINK_LIBS ${LINK_LIBS} "${MOAI_ROOT}/3rdparty/TapjoySDK_iOS_v9.1.0/Libraries/Tapjoy.embeddedframework/Tapjoy.framework")
 endif (NOT DISABLE_TAPJOY )
-install(directory "${MOAI_ROOT}/3rdparty/TapjoySDK_iOS_v9.1.0/Libraries/Tapjoy.embeddedframework/Tapjoy.framework" DESTINATION lib)
+install(DIRECTORY "${MOAI_ROOT}/3rdparty/TapjoySDK_iOS_v9.1.0/Libraries/Tapjoy.embeddedframework/Tapjoy.framework" DESTINATION lib)
 
 
 set(VUNGLE_LIB ${MOAI_ROOT}/3rdparty/vungle-1.3.3/lib/vunglepub/bin/libvunglepub.a)
@@ -102,7 +102,7 @@ if (NOT DISABLE_MOBILEAPPTRACKER)
   set (LINK_LIBS ${LINK_LIBS} "${MOAI_ROOT}/3rdparty/MobileAppTracking-ios/MobileAppTracker.framework")
 endif (NOT DISABLE_MOBILEAPPTRACKER)
 
-install(directory "${MOAI_ROOT}/3rdparty/MobileAppTracking-ios/MobileAppTracker.framework" DESTINATION lib)
+install(DIRECTORY "${MOAI_ROOT}/3rdparty/MobileAppTracking-ios/MobileAppTracker.framework" DESTINATION lib)
 
 include_directories ( ${MOAI_IPHONE_INCLUDES} )
 add_library ( moai-iphone STATIC ${MOAI_IPHONE_SRC}  )
