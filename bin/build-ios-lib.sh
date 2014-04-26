@@ -6,17 +6,7 @@
 # http://getmoai.com
 #================================================================#
 
-# Set this to a name which will be valid for "codesign -s", or the build
-# will fail.
-SIGN_IDENTITY='iPhone Developer'
 
-codesign_msg=$(codesign -s "$SIGN_IDENTITY" 2>&1)
-case $codesign_msg in
-*": no identity found"*)
-    echo >&2 "Code-signing identity ($SIGN_IDENTITY) is invalid."
-    exit 1
-    ;;
-esac
 
 set -e
 
@@ -42,8 +32,7 @@ usage: $0
     [--use-untz true | false] [--disable-adcolony] [--disable-billing]
     [--disable-chartboost] [--disable-crittercism] [--disable-facebook]
     [--disable-mobileapptracker] [--disable-push] [--disable-tapjoy]
-    [--disable-twitter] [--simulator] [--release]
-    <lua-src-path>
+    [--disable-twitter] [--release]
 EOF
     exit 1
 }
@@ -83,26 +72,7 @@ while [ $# -gt 0 ];	do
     shift
 done
 
-if [ $# != 1 ]; then
-    usage
-fi
 
-LUASRC=$(ruby -e 'puts File.expand_path(ARGV.first)' "$1")
-
-if [ ! -f "${LUASRC}/main.lua" ]; then
-    echo -n "Please enter the directory path of the Lua source. > "
-    read LUASRC
-    LUASRC=$(ruby -e 'puts File.expand_path(ARGV.first)' "$LUASRC")
-
-    if [ ! -f "${LUASRC}/main.lua" ]; then
-        echo "Could not find main.lua in specified lua source directory [${LUASRC}]"
-        exit 1
-    fi
-fi
-
-if [ x"$use_untz" != xtrue ] && [ x"$use_untz" != xfalse ]; then
-    usage
-fi
 
 #get some required variables
 XCODEPATH=$(xcode-select --print-path)
@@ -178,6 +148,7 @@ if [ x"$twitter_flags" != x ]; then
 fi 
 
 build_dir=${PWD}
+lib_dir=${build_dir}/lib/ios
 
 cd `dirname $0`/..
 cd cmake
@@ -185,17 +156,16 @@ rm -rf build
 mkdir build
 cd build
 
-echo "Building resource list from ${LUASRC}"
-ruby ../host-ios/build_resources.rb "${LUASRC}"
 
 echo "Creating xcode project"
 
+set +e
 #create our makefiles
-cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
--DMOAI_CHIPMUNK=1 -DMOAI_CURL=1 -DMOAI_CRYPTO=0 -DMOAI_EXPAT=1 -DMOAI_FREETYPE=1 \
--DMOAI_HTTP_CLIENT=1 -DMOAI_JSON=1 -DMOAI_JPG=1 -DMOAI_LUAEXT=1 \
--DMOAI_MONGOOSE=1 -DMOAI_OGG=1 -DMOAI_OPENSSL=0 -DMOAI_SQLITE3=1 \
--DMOAI_TINYXML=1 -DMOAI_PNG=1 -DMOAI_SFMT=1 -DMOAI_VORBIS=1 $untz_param \
+cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=0 \
+-DMOAI_CHIPMUNK=0 -DMOAI_CURL=0 -DMOAI_CRYPTO=0 -DMOAI_EXPAT=0 -DMOAI_FREETYPE=1 \
+-DMOAI_HTTP_CLIENT=0 -DMOAI_JSON=0 -DMOAI_JPG=1 -DMOAI_LUAEXT=0 \
+-DMOAI_MONGOOSE=0 -DMOAI_OGG=0 -DMOAI_OPENSSL=0 -DMOAI_SQLITE3=1 \
+-DMOAI_TINYXML=0 -DMOAI_PNG=1 -DMOAI_SFMT=0 -DMOAI_VORBIS=0 $untz_param \
 -DMOAI_LUAJIT=1 \
 -DBUILD_IOS=true \
 -DSIGN_IDENTITY="${SIGN_IDENTITY}" \
@@ -203,24 +173,39 @@ cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=1 \
 -DAPP_ID="${APP_ID}" \
 -DAPP_VERSION="${APP_VERSION}" \
 -DCMAKE_BUILD_TYPE=$buildtype_flags \
+-DCMAKE_INSTALL_PREFIX=${lib_dir} \
+-DLIB_ONLY=TRUE \
 -G "Xcode" \
 ../
 
-#-DCMAKE_TOOLCHAIN_FILE="${PWD}/../host-ios/iOS.cmake" \
-#-DCMAKE_IOS_DEVELOPER_ROOT="${PLATFORM_PATH}" \
-      #build them
-xcodebuild -target moai -sdk ${SDK} -arch ${ARCH}
+rm -f ${lib_dir}/lib/*.a
+
+xcodebuild ONLY_ACTIVE_ARCH=NO -project moai.xcodeproj -target install -configuration $buildtype_flags -target install -sdk iphonesimulator
+#work around cmake install bug with ios projects
+find . -iregex ".*/.*-iphonesimulator/[^/]*.a" | xargs -J % cp -npv % ${lib_dir}/lib
+
+mkdir -p ${lib_dir}/lib-iphonesimulator
+mv -v ${lib_dir}/lib/*.a ${lib_dir}/lib-iphonesimulator
+
+rm -f ${lib_dir}/lib/*.a
+
+xcodebuild ONLY_ACTIVE_ARCH=NO ARCHS="armv7 armv7s" -project moai.xcodeproj -target install -configuration $buildtype_flags -target install -sdk iphoneos
+#work around cmake install bug with ios projects
+find . -iregex ".*/.*-iphoneos/[^/]*.a" | xargs -J % cp -npv % ${lib_dir}/lib
+
+mkdir -p ${lib_dir}/lib-iphoneos
+mv -v ${lib_dir}/lib/*.a ${lib_dir}/lib-iphoneos
 
 echo "Build Directory : ${build_dir}"
+echo "Lib Output: ${lib_dir}"
 
-# Copy libs
-cd `dirname $0`/..
-if [ -d "release/ios" ]; then
-    rm -fr release/ios
-fi
+#todo create lipo and dump in release folder.
+for LIBNAME in ${lib_dir}/lib-iphoneos/*.a
+do
+    echo lip $LIBNAME
+    BASELIBNAME=`basename $LIBNAME`
+    lipo ${lib_dir}/lib-iphoneos/$BASELIBNAME -arch i386 ${lib_dir}/lib-iphonesimulator/$BASELIBNAME -create -output ${lib_dir}/lib/$BASELIBNAME
+done
+rm -rf ${lib_dir}/lib-iphoneos
+rm -rf ${lib_dir}/lib-iphonesimulator
 
-mkdir -p release/ios/app
-mkdir -p release/ios/lib
-
-find cmake/build -name "*.app" | xargs -J % cp -fRp % release/ios/app
-find cmake/build -name "*.a" | xargs -J % cp -fp % release/ios/lib

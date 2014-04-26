@@ -226,7 +226,7 @@ ENDFOREACH()
 # are we skipping the host and just installing the libs
 OPTION( LIB_ONLY  FALSE)
 #default our install to not put it into the system
-set (CMAKE_INSTALL_PREFIX "./lib")
+#set (CMAKE_INSTALL_PREFIX "./lib")
 # Not sure about this one
 #set ( MOAI_OPENGLES1      FALSE CACHE STRING "Build Moai SDK with OpenGL ES 1.0 Support" FORCE )
 
