@@ -32,7 +32,7 @@ get_target_property ( FREETYPE_INCLUDES freetype INCLUDE_DIRECTORIES )
 
 target_include_directories (moai-sim PUBLIC 
     "$<BUILD_INTERFACE:${MOAI_SIM_INCLUDES} ${FREETYPE_INCLUDES}>"
-    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/moai-sim>"
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>"
 )
 
 

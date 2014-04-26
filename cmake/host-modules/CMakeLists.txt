@@ -54,7 +54,7 @@ endif (MOAI_TEST)
 
 configure_file(moai_config.h.in "${CMAKE_CURRENT_BINARY_DIR}/moai_config.h")
 
-install(TARGETS host-modules EXPORT libmoai ARCHIVE DESTINATION lib)
+install(TARGETS host-modules EXPORT libmoai ARCHIVE DESTINATION lib )
 install(FILES 
               ${CMAKE_CURRENT_BINARY_DIR}/moai_config.h
               ${MOAI_ROOT}/src/host-modules/aku_modules.h 

@@ -16,13 +16,13 @@
 #import <host-modules/aku_modules.h>
 #import <moai-iphone/AKU-iphone.h>
 
-#import <moai-audiosampler/MOAIAudioSampler.h>
+//#import <moai-audiosampler/MOAIAudioSampler.h>
 #import <moai-audiosampler/AKU-audiosampler.h>
 
 
 #import "LocationObserver.h"
 #import "MoaiView.h"
-#import "ParticlePresets.h"
+//#import "ParticlePresets.h"
 
 namespace MoaiInputDeviceID {
 	enum {
@@ -204,7 +204,7 @@ namespace MoaiInputDeviceSensorID {
 		AKUIphoneInit ( application );
 		
 		// add in the particle presets
-		ParticlePresets ();
+		//ParticlePresets ();
 	}
 	
 	//----------------------------------------------------------------//

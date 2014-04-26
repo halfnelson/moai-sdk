@@ -183,6 +183,7 @@ rm -f ${lib_dir}/lib/*.a
 xcodebuild ONLY_ACTIVE_ARCH=NO -project moai.xcodeproj -target install -configuration $buildtype_flags -target install -sdk iphonesimulator
 #work around cmake install bug with ios projects
 find . -iregex ".*/.*-iphonesimulator/[^/]*.a" | xargs -J % cp -npv % ${lib_dir}/lib
+find . -iregex ".*/Export/cmake/[^/]*.cmake" | xargs -J % cp -npv % {lib_dir}/cmake
 
 mkdir -p ${lib_dir}/lib-iphonesimulator
 mv -v ${lib_dir}/lib/*.a ${lib_dir}/lib-iphonesimulator
@@ -194,7 +195,7 @@ xcodebuild ONLY_ACTIVE_ARCH=NO ARCHS="armv7 armv7s" -project moai.xcodeproj -tar
 find . -iregex ".*/.*-iphoneos/[^/]*.a" | xargs -J % cp -npv % ${lib_dir}/lib
 
 mkdir -p ${lib_dir}/lib-iphoneos
-mv -v ${lib_dir}/lib/*.a ${lib_dir}/lib-iphoneos
+cp -npv ${lib_dir}/lib/*.a ${lib_dir}/lib-iphoneos
 
 echo "Build Directory : ${build_dir}"
 echo "Lib Output: ${lib_dir}"

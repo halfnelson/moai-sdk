@@ -335,4 +335,4 @@ if (NOT LIB_ONLY)
   endif (CUSTOM_HOST)
 endif (NOT LIB_ONLY)
 
-install(EXPORT libmoai DESTINATION cmake)
+install(EXPORT libmoai DESTINATION cmake )

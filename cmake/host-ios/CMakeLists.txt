@@ -3,21 +3,44 @@ project ( moaiios )
 
 message("Building for architecture: ${CMAKE_OSX_ARCHITECTURES}")
 
-add_subdirectory( "${CMAKE_CURRENT_BINARY_DIR}/../bundle_res" "bundle_res")
 
-set ( INCLUDES_MOAIIOS
-  "${MOAI_ROOT}/src/"
-  "${MOAI_ROOT}/src/config-default/"
-  "${MOAI_ROOT}/src/host-glut"
-)
 
+
+if (HOST_ONLY)
+   # define all our required targets
+ 
+  set ( CMAKE_OSX_SYSROOT iphoneos )
+ # set ( CMAKE_OSX_ARCHITECTURES "armv7;arm;i386" )
+  set ( CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator" )
+  set ( XCODE_ATTRIBUTE_SDKROOT iphoneos )
+ message("INCLUDING LIBMOAI")
+    include(${LIB_PATH}/cmake/libmoai.cmake)
+   set (MOAI_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../")
+   set ( IOS_HOST "${MOAI_ROOT}/src/host-ios")
+    message("adding resources")
+   add_subdirectory( "${CMAKE_CURRENT_BINARY_DIR}/bundle_res" "bundle_res")
+   message("recursing over sources")
+   LINK_DIRECTORIES("${LIB_PATH}")
+   file ( GLOB_RECURSE MOAIIOS_SOURCES
+     "${IOS_HOST}/*.cpp"
+     "${IOS_HOST}/*.mm"
+     "${IOS_HOST}/*.h"
+   )
+   message("End host only section")
+else (HOST_ONLY)
+   add_subdirectory( "${CMAKE_CURRENT_BINARY_DIR}/../bundle_res" "bundle_res")
+   set ( INCLUDES_MOAIIOS
+     "${MOAI_ROOT}/src/"
+     "${MOAI_ROOT}/src/config-default/"
+     "${MOAI_ROOT}/src/host-glut" 
+   )
+   include_directories (
+    ${INCLUDES_MOAIIOS} 
+   )
 set ( IOS_HOST "${MOAI_ROOT}/src/host-ios")
 
-include_directories (
-    ${INCLUDES_MOAIIOS}
-)
-
-file ( GLOB_RECURSE MOAIIOS_SOURCES
+ LINK_DIRECTORIES("${LUA_LIB_DIR}")
+   file ( GLOB_RECURSE MOAIIOS_SOURCES
   "${IOS_HOST}/*.cpp"
   "${IOS_HOST}/*.mm"
   "${IOS_HOST}/*.h"
@@ -26,6 +49,16 @@ file ( GLOB_RECURSE MOAIIOS_SOURCES
   "${MOAI_ROOT}/src/host-glut/ParticlePresets.cpp"
   "${MOAI_ROOT}/src/host-glut/ParticlePresets.h"
 )
+
+endif (HOST_ONLY)
+
+
+
+
+
+
+
+
 
 set ( MOAIIOS_RESOURCES
   ${IOS_HOST}/Icon-72.png
@@ -49,7 +82,8 @@ SET_SOURCE_FILES_PROPERTIES (
 )
 
 add_executable ( moai MACOSX_BUNDLE ${MOAIIOS_SOURCES} ${MOAIIOS_RESOURCES} ${PROJECT_RESOURCES})
-LINK_DIRECTORIES("${LUA_LIB_DIR}")
+
+
 target_link_libraries ( moai
   host-modules
   moai-sim
@@ -89,7 +123,7 @@ set( FWORKS
   Twitter
   UIKit
 )
-
+ message("adding frameworks")
 ADD_FRAMEWORKS(moai "${FWORKS}")
 
 set_target_properties(moai PROPERTIES XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "${SIGN_IDENTITY}")
