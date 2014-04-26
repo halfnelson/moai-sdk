@@ -23,4 +23,5 @@ target_include_directories ( moai-audiosampler PUBLIC
         "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>"
 )
 install(TARGETS moai-audiosampler EXPORT libmoai ARCHIVE DESTINATION lib)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/AKU-audiosampler.h DESTINATION include/moai-audiosampler)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include/moai-audiosampler
+          FILES_MATCHING PATTERN "*.h")

@@ -32,5 +32,6 @@ project ( moai-box2d )
   set_target_properties(moai-box2d PROPERTIES FOLDER Modules)  
 
   install(TARGETS moai-box2d EXPORT libmoai ARCHIVE DESTINATION lib)
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/host.h DESTINATION include/moai-box2d)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include/moai-box2d
+          FILES_MATCHING PATTERN "*.h")
   

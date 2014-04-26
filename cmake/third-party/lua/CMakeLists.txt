@@ -58,3 +58,11 @@ set (LUA_LIB liblua-static PARENT_SCOPE)
 set_target_properties( liblua-static PROPERTIES FOLDER Third-Party )
 install(TARGETS liblua-static EXPORT libmoai ARCHIVE DESTINATION lib)
 
+install(FILES 
+  ${CMAKE_CURRENT_SOURCE_DIR}lua.h
+  ${CMAKE_CURRENT_SOURCE_DIR}lualib.h
+  ${CMAKE_CURRENT_SOURCE_DIR}luaconf.h
+  ${CMAKE_CURRENT_SOURCE_DIR}lauxlib.h
+  DESTINATION include/lua
+)
+

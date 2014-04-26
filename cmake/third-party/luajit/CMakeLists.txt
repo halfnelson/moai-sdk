@@ -189,3 +189,11 @@ cmake_minimum_required(VERSION 2.8)
    else(MSVC)
       install(FILES ${CMAKE_CURRENT_BINARY_DIR}/luajit/src/libluajit.a DESTINATION lib ) 
    endif (MSVC)
+
+   install(FILES 
+        ${CMAKE_CURRENT_BINARY_DIR}/luajit/src/lua.h
+        ${CMAKE_CURRENT_BINARY_DIR}/luajit/src/lualib.h
+        ${CMAKE_CURRENT_BINARY_DIR}/luajit/src/luaconf.h
+        ${CMAKE_CURRENT_BINARY_DIR}/luajit/src/lauxlib.h
+        DESTINATION include/lua
+    )

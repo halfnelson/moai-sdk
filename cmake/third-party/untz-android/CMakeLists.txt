@@ -33,3 +33,5 @@ endif (MOAI_VORBIS)
 
 target_include_directories ( untz PUBLIC "$<BUILD_INTERFACE:${UNTZ_INCLUDES}>" )
  install(TARGETS untz EXPORT libmoai ARCHIVE DESTINATION lib)
+ install(DIRECTORY ${MOAI_ROOT}/3rdparty/untz/include/ DESTINATION include/untz
+          FILES_MATCHING PATTERN "*.h")

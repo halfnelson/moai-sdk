@@ -32,8 +32,8 @@ set(BUILD_INCLUDES ${MOAI_CORE_INCLUDES} ${LUA_HEADERS})
  
 target_include_directories (moai-core PUBLIC 
     "$<BUILD_INTERFACE:${BUILD_INCLUDES}>"
-    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>"
-)
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include $<INSTALL_PREFIX>/include/lua>")
+
 LINK_DIRECTORIES("${LUA_LIB_DIR}")
 target_link_libraries ( moai-core zlcore ${LUA_LIB})
 add_dependencies ( moai-core liblua-static)
@@ -42,6 +42,5 @@ set_target_properties(moai-core PROPERTIES FOLDER Core)
 
 install(TARGETS moai-core EXPORT libmoai ARCHIVE DESTINATION lib)
 
-install(FILES 
-              ${CMAKE_CURRENT_SOURCE_DIR}/host.h 
-        DESTINATION include/moai-core)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include/moai-core
+          FILES_MATCHING PATTERN "*.h")

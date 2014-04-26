@@ -32,4 +32,5 @@ target_include_directories (moai-test PUBLIC
 
 set_target_properties(moai-test PROPERTIES FOLDER Modules)  
 install(TARGETS moai-test EXPORT libmoai ARCHIVE DESTINATION lib)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/host.h DESTINATION include/moai-test)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include/moai-test
+          FILES_MATCHING PATTERN "*.h")

@@ -19,6 +19,7 @@ file ( GLOB ZLUTIL_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/zl-util/*.cpp" )
 file ( GLOB ZLUTIL_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/zl-util/*.h" )
 file ( GLOB ZLGFX_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/zl-gfx/*.cpp" )
 file ( GLOB ZLGFX_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/zl-gfx/*.h" )
+file ( GLOB ZLCOMMON_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/zl-common/*.h")
 
 include_directories ( ${ZLCORE_INCLUDES} )
 
@@ -58,3 +59,7 @@ endif (BUILD_WINDOWS)
 
 
 install(TARGETS zlcore EXPORT libmoai ARCHIVE DESTINATION lib)
+
+install(FILES ZLUTIL_HEADERS DESTINATION include/zl-util)
+install(FILES ZLGFX_HEADERS DESTINATION include/zl-gfx)
+install(FILES ZLCOMMON_HEADERS DESTINATION include/zl-common)
