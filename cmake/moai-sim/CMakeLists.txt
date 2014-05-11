@@ -68,7 +68,7 @@ endif (BUILD_WINDOWS)
 
 install(TARGETS moai-sim EXPORT libmoai ARCHIVE DESTINATION lib)
 
-install(FILES 
-              ${CMAKE_CURRENT_SOURCE_DIR}/host.h 
-              ${CMAKE_CURRENT_SOURCE_DIR}/host_particles.h
-        DESTINATION include/moai-sim)
+
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include/moai-sim
+          FILES_MATCHING PATTERN "*.h")

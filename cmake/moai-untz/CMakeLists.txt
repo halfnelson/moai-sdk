@@ -27,9 +27,11 @@ target_link_libraries (moai-untz moai-sim moai-core moai-util untz)
 
 target_include_directories (moai-untz PUBLIC 
     "$<BUILD_INTERFACE:${MOAI_UNTZ_INCLUDES}>"
-    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/moai-untz>"
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include  $<INSTALL_PREFIX>/include/untz>"
 )
 
 set_target_properties(moai-untz PROPERTIES FOLDER Modules)  
 install(TARGETS moai-untz EXPORT libmoai ARCHIVE DESTINATION lib)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/host.h DESTINATION include/moai-untz)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include/moai-untz
+          FILES_MATCHING PATTERN "*.h")

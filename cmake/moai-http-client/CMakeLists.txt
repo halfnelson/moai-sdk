@@ -40,7 +40,10 @@ endif (MOAI_CURL)
 
 set_target_properties(moai-http-client PROPERTIES FOLDER Modules)  
 install(TARGETS moai-http-client EXPORT libmoai ARCHIVE DESTINATION lib)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/host.h DESTINATION include/moai-http-client)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include/moai-http-client
+          FILES_MATCHING PATTERN "*.h")
+
 
   
 

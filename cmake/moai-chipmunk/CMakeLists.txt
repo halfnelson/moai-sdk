@@ -29,4 +29,5 @@ target_include_directories (moai-chipmunk PUBLIC
 target_link_libraries ( moai-chipmunk moai-sim chipmunk moai-util moai-core zlcore )
 set_target_properties(moai-chipmunk PROPERTIES FOLDER Modules)  
 install(TARGETS moai-chipmunk EXPORT libmoai ARCHIVE DESTINATION lib)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/host.h DESTINATION include/moai-chipmunk)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include/moai-chipmunk
+          FILES_MATCHING PATTERN "*.h")

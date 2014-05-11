@@ -71,9 +71,7 @@ ENDFOREACH()
 #  Create a host.cpp
 #
 
-configure_file( "${PLUGINS_ROOT}/host.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/host.cpp" 
-                 [COPYONLY] [ESCAPE_QUOTES] [@ONLY] 
-                 [NEWLINE_STYLE [UNIX|DOS|WIN32|LF|CRLF] ])
+configure_file( "${PLUGINS_ROOT}/host.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/host.cpp")
 
 #
 #  actually define the target

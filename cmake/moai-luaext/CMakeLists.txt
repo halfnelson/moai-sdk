@@ -44,4 +44,6 @@ target_include_directories (moai-luaext PUBLIC
 
 set_target_properties(moai-luaext PROPERTIES FOLDER Modules)  
 install(TARGETS moai-luaext EXPORT libmoai ARCHIVE DESTINATION lib)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/host.h DESTINATION include/moai-luaext)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION include/moai-luaext
+          FILES_MATCHING PATTERN "*.h")

@@ -48,3 +48,5 @@ target_link_libraries ( untz
 )
 set_target_properties( untz PROPERTIES FOLDER Third-Party )
 install(TARGETS untz EXPORT libmoai ARCHIVE DESTINATION lib)
+install(DIRECTORY ${MOAI_ROOT}/3rdparty/untz/include/ DESTINATION include/untz
+          FILES_MATCHING PATTERN "*.h")
