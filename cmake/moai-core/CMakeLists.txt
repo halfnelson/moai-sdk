@@ -32,7 +32,9 @@ set(BUILD_INCLUDES ${MOAI_CORE_INCLUDES} ${LUA_HEADERS})
  
 target_include_directories (moai-core PUBLIC 
     "$<BUILD_INTERFACE:${BUILD_INCLUDES}>"
-    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include $<INSTALL_PREFIX>/include/lua>")
+    $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>
+    $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/lua>
+)
 
 LINK_DIRECTORIES("${LUA_LIB_DIR}")
 target_link_libraries ( moai-core zlcore ${LUA_LIB})

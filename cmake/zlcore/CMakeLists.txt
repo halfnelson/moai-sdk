@@ -27,7 +27,9 @@ add_library ( zlcore STATIC ${ZLUTIL_SOURCES} ${ZLUTIL_HEADERS} ${ZLGFX_SOURCES}
 
 add_dependencies ( zlcore liblua-static)
 set (ZLCORE_TARGET_INCLUDES "${MOAI_ROOT}/src/" "${MOAI_ROOT}/3rdparty/expat-2.0.1/lib")
-target_include_directories ( zlcore PUBLIC "$<BUILD_INTERFACE:${ZLCORE_TARGET_INCLUDES}>" )
+target_include_directories ( zlcore PUBLIC "$<BUILD_INTERFACE:${ZLCORE_TARGET_INCLUDES}>"
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/expat>"
+ )
 
 set_target_properties(zlcore PROPERTIES FOLDER Core)
 
@@ -60,6 +62,6 @@ endif (BUILD_WINDOWS)
 
 install(TARGETS zlcore EXPORT libmoai ARCHIVE DESTINATION lib)
 
-install(FILES ZLUTIL_HEADERS DESTINATION include/zl-util)
-install(FILES ZLGFX_HEADERS DESTINATION include/zl-gfx)
-install(FILES ZLCOMMON_HEADERS DESTINATION include/zl-common)
+install(FILES ${ZLUTIL_HEADERS} DESTINATION include/zl-util)
+install(FILES ${ZLGFX_HEADERS} DESTINATION include/zl-gfx)
+install(FILES ${ZLCOMMON_HEADERS} DESTINATION include/zl-common)

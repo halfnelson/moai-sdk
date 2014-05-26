@@ -29,6 +29,8 @@ target_link_libraries ( moai-util moai-core zlcore  )
 target_include_directories (moai-util PUBLIC 
     "$<BUILD_INTERFACE:${MOAI_UTIL_INCLUDES}>"
     "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/moai-util>"
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/expat>"
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/tinyxml>"
 )
 
 set_target_properties( moai-util PROPERTIES FOLDER Core)
