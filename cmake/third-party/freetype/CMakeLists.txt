@@ -61,3 +61,4 @@ target_include_directories (freetype PUBLIC "$<BUILD_INTERFACE:${FREETYPE_INCLUD
 target_link_libraries ( freetype zlib )
 set_target_properties( freetype PROPERTIES FOLDER Third-Party )
 install(TARGETS freetype EXPORT libmoai ARCHIVE DESTINATION lib)
+#install(DIRECTORY ${FT_DIR}/include/ DESTINATION include/freetype)

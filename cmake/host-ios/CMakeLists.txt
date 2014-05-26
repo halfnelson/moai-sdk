@@ -19,6 +19,7 @@ if (HOST_ONLY)
    set ( IOS_HOST "${MOAI_ROOT}/src/host-ios")
     message("adding resources")
    add_subdirectory( "${CMAKE_CURRENT_BINARY_DIR}/bundle_res" "bundle_res")
+   add_subdirectory( "../moai-iphone" "moai-iphone")
    message("recursing over sources")
    LINK_DIRECTORIES("${LIB_PATH}")
    file ( GLOB_RECURSE MOAIIOS_SOURCES

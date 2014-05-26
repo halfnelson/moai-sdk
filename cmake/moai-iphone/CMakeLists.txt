@@ -118,7 +118,7 @@ target_include_directories( moai-iphone PUBLIC
 )
 
 set_target_properties( moai-iphone PROPERTIES FOLDER Modules )
-install(TARGETS moai-iphone EXPORT libmoai ARCHIVE DESTINATION lib)
-file ( GLOB IPHONE_AKU "${MOAI_ROOT}/src/moai-iphone/AKU-*.h")
-install(FILES ${IPHONE_AKU} DESTINATION "include/moai-iphone")
+#install(TARGETS moai-iphone EXPORT libmoai ARCHIVE DESTINATION lib)
+#file ( GLOB IPHONE_AKU "${MOAI_ROOT}/src/moai-iphone/AKU-*.h")
+install(FILES "${MOAI_ROOT}/3rdparty/openUDID/MOAIOpenUDID.h" DESTINATION "include/openUDID")
 
