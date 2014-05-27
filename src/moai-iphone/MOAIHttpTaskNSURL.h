@@ -5,6 +5,8 @@
 #define libmoai_MOAIHttpTaskNsUrl_h
 
 //#ifdef USE_NSURL
+#if AKU_WITH_HTTP_CLIENT
+
 #include <moai-core/headers.h>
 #include <moai-http-client/MOAIHttpTaskBase.h>
 #import <Foundation/Foundation.h> 
@@ -103,5 +105,5 @@ public:
 }
 @end
 
-//#endif
+#endif
 #endif

@@ -1,6 +1,6 @@
 // Copyright (c) 2010-2011 Zipline Games, Inc. All Rights Reserved.
 // http://getmoai.com
-
+#if AKU_WITH_HTTP_CLIENT
 #include <moai-iphone/MOAIUrlMgrNSURL.h>
 
 //----------------------------------------------------------------//
@@ -66,4 +66,4 @@ void MOAIUrlMgrNSURL::ProcessResponse ( NSURLConnection* handle, int responseCod
 	}
 }
 
-
+#endif

@@ -10,7 +10,7 @@
 
 SUPPRESS_EMPTY_FILE_WARNING
 //#ifdef USE_NSURL
-
+#if AKU_WITH_HTTP_CLIENT
 #define MAX_HEADER_LENGTH 1024
 
 
@@ -403,4 +403,4 @@ void MOAIHttpTaskNSURL::SetVerbose ( bool verbose ) {
 
 
 
-//#endif
+#endif

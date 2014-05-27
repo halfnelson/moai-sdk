@@ -4,7 +4,7 @@
 #ifndef libmoai_MOAIUrlMgrNSURL_h
 #define libmoai_MOAIUrlMgrNSURL_h
 
-
+#if AKU_WITH_HTTP_CLIENT
 //#ifdef USE_CURL
 
 #include <moai-iphone/MOAIHttpTaskNSURL.h>
@@ -38,5 +38,5 @@ public:
 
 
 
-
+#endif
 #endif

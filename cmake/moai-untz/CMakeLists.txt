@@ -27,7 +27,8 @@ target_link_libraries (moai-untz moai-sim moai-core moai-util untz)
 
 target_include_directories (moai-untz PUBLIC 
     "$<BUILD_INTERFACE:${MOAI_UNTZ_INCLUDES}>"
-    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include  $<INSTALL_PREFIX>/include/untz>"
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/untz>"
 )
 
 set_target_properties(moai-untz PROPERTIES FOLDER Modules)  

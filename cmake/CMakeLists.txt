@@ -214,6 +214,9 @@ SETUP_MODULE(MOAI_PLUGINS AKU_WITH_PLUGINS)
 
 SETUP_MODULE(MOAI_TEST AKU_WITH_TEST)
 
+#save our config
+add_subdirectory(config)
+
 #Flags for optional modules
 
 FOREACH(DISABLED ${DISABLED_EXT} )

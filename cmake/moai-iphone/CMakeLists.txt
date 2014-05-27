@@ -6,8 +6,8 @@ set (LINK_LIBS "")
 
 set ( MOAI_IPHONE_INCLUDES 
   "${MOAI_ROOT}/src/"
+  "${CMAKE_BINARY_DIR}/config"
   "${MOAI_ROOT}/src/moai-iphone/"
-  "${MOAI_ROOT}/src/config-default/"
   "${MOAI_ROOT}/3rdparty/crittercismiOS-4.0.6/CrittercismSDK"
   "${MOAI_ROOT}/3rdparty/facebookiOS-3.0.6.b/src"
   "${MOAI_ROOT}/3rdparty/playhaven-ios-1.13.1/src"
@@ -25,6 +25,16 @@ file ( GLOB MOAI_IPHONE_SRC
   "${MOAI_ROOT}/3rdparty/contrib/ISO8601DateFormatter.m"
   "${MOAI_ROOT}/3rdparty/openUDID/MOAIOpenUDID.m"
 )
+
+#we need to remove the iphone version of httptask if moaihttpclient is not included
+if (NOT MOAI_HTTP_CLIENT)
+  list ( REMOVE_ITEM MOAI_IPHONE_SRC 
+    "${MOAI_ROOT}/src/moai-iphone/MOAIHttpTaskNSURL.mm"
+    "${MOAI_ROOT}/src/moai-iphone/MOAIHttpTaskNSURL.h"
+    "${MOAI_ROOT}/src/moai-iphone/MOAIUrlMgrNSURL.mm"
+    "${MOAI_ROOT}/src/moai-iphone/MOAIUrlMgrNSURL.h"
+    )
+endif(NOT MOAI_HTTP_CLIENT)
 
 # Extensions
 

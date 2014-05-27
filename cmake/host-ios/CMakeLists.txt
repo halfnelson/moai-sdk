@@ -21,7 +21,7 @@ if (HOST_ONLY)
    add_subdirectory( "${CMAKE_CURRENT_BINARY_DIR}/bundle_res" "bundle_res")
    add_subdirectory( "../moai-iphone" "moai-iphone")
    message("recursing over sources")
-   LINK_DIRECTORIES("${LIB_PATH}")
+   LINK_DIRECTORIES("${LIB_PATH}/lib")
    file ( GLOB_RECURSE MOAIIOS_SOURCES
      "${IOS_HOST}/*.cpp"
      "${IOS_HOST}/*.mm"
