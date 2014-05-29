@@ -1,7 +1,7 @@
 cmake_minimum_required ( VERSION 2.8.5 )
 project ( moai-luaext )
 
-set ( MOAI_LUAEXT_INCLUDES "${MOAI_ROOT}/src/;${MOAI_ROOT}/3rdparty/;${MOAI_ROOT}/src/config-default/;${MOAI_ROOT}/3rdparty/mongoose/" )
+set ( MOAI_LUAEXT_INCLUDES "${MOAI_ROOT}/src/;${MOAI_ROOT}/3rdparty/;${CMAKE_BINARY_DIR}/config;${MOAI_ROOT}/3rdparty/mongoose/" )
 
 
 if ( BUILD_ANDROID )

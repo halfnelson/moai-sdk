@@ -6,7 +6,7 @@ project(host-html)
 
 set ( INCLUDES_MOAIHOSTHTML 
   "${MOAI_ROOT}/src/"
-  "${MOAI_ROOT}/src/config-default/"
+  "${CMAKE_BINARY_DIR}/config"
   "${MOAI_ROOT}/src/host-html/"
    )
 

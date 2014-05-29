@@ -12,7 +12,7 @@ set (CMAKE_CXX_FLAGS ${VFS_CXX_FLAGS})
 
 # Define needed include files
 set ( ZLVFS_INCLUDES
-  "${MOAI_ROOT}/src/config-default/" 
+  "${CMAKE_BINARY_DIR}/config"
   "${MOAI_ROOT}/src/"
 )
 

@@ -1,7 +1,7 @@
 cmake_minimum_required ( VERSION 2.8.5 )
 project ( moaiext-server )
 
-set ( MOAIEXT_SERVER_INCLUDES "${MOAI_ROOT}/src/;${MOAI_ROOT}/3rdparty/;${MOAI_ROOT}/src/config-default/;${MOAI_ROOT}/3rdparty/mongoose/" CACHE INTERNAL "doc string" )
+set ( MOAIEXT_SERVER_INCLUDES "${MOAI_ROOT}/src/;${MOAI_ROOT}/3rdparty/;${CMAKE_BINARY_DIR}/config;${MOAI_ROOT}/3rdparty/mongoose/" CACHE INTERNAL "doc string" )
 
 include_directories ( 
   ${MOAICORE_INCLUDES} 

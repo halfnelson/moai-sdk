@@ -98,7 +98,7 @@
 	#endif
 	
 	#ifndef MOAI_WITH_TINYXML
-		#define MOAI_WITH_TINYXML ${MOAI_WITH_TINXML}
+		#define MOAI_WITH_TINYXML ${MOAI_WITH_TINYXML}
 	#endif
 	
 	#ifndef MOAI_WITH_SFMT

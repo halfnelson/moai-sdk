@@ -8,7 +8,7 @@ set ( CMAKE_CURRENT_SOURCE_DIR "${MOAI_ROOT}/src/" )
 
 # Define needed include files
 set ( ZLCORE_INCLUDES
- "${MOAI_ROOT}/src/config-default/" 
+ "${CMAKE_BINARY_DIR}/config"
   "${MOAI_ROOT}/src/"
   "${MOAI_ROOT}/3rdparty/"
   "${MOAI_ROOT}/3rdparty/ooid-0.99/"

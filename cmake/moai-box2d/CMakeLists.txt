@@ -7,7 +7,7 @@ project ( moai-box2d )
 
   set ( MOAI_BOX2D_INCLUDES 
     "${MOAI_ROOT}/src/"
-    "${MOAI_ROOT}/src/config-default/"
+    "${CMAKE_BINARY_DIR}/config"
     )
 
   # Use all cpp files in directory as source code

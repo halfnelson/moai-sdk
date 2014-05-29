@@ -5,7 +5,7 @@ set (PLUGINS_ROOT "${MOAI_ROOT}/src/moai-plugins")
 
 set ( MOAI_PLUGINS_INCLUDES 
     "${MOAI_ROOT}/src"
-    "${MOAI_ROOT}/src/config-default"
+   "${CMAKE_BINARY_DIR}/config"
     ${PLUGINS_ROOT}
     )
 

@@ -152,14 +152,20 @@ lib_dir=${build_dir}/lib/ios
 
 cd `dirname $0`/..
 cd cmake
-rm -rf build
+#rm -rf build
+if ! [ -d "build" ]
+then
 mkdir build
+fi
 cd build
 
 
 echo "Creating xcode project"
 
 set +e
+
+if ! [ -e "CMakeCache.txt" ]
+then    
 #create our makefiles
 cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=0 \
 -DMOAI_CHIPMUNK=0 -DMOAI_CURL=0 -DMOAI_CRYPTO=0 -DMOAI_EXPAT=0 -DMOAI_FREETYPE=1 \
@@ -177,13 +183,14 @@ cmake -DDISABLED_EXT="$disabled_ext" -DMOAI_BOX2D=0 \
 -DLIB_ONLY=TRUE \
 -G "Xcode" \
 ../
+fi
 
 rm -f ${lib_dir}/lib/*.a
 
 xcodebuild ONLY_ACTIVE_ARCH=NO -project moai.xcodeproj -target install -configuration $buildtype_flags -target install -sdk iphonesimulator
 #work around cmake install bug with ios projects
 find . -iregex ".*/.*-iphonesimulator/[^/]*.a" | xargs -J % cp -npv % ${lib_dir}/lib
-find . -iregex ".*/Export/cmake/[^/]*.cmake" | xargs -J % cp -npv % {lib_dir}/cmake
+
 
 mkdir -p ${lib_dir}/lib-iphonesimulator
 mv -v ${lib_dir}/lib/*.a ${lib_dir}/lib-iphonesimulator
@@ -193,6 +200,7 @@ rm -f ${lib_dir}/lib/*.a
 xcodebuild ONLY_ACTIVE_ARCH=NO ARCHS="armv7 armv7s" -project moai.xcodeproj -target install -configuration $buildtype_flags -target install -sdk iphoneos
 #work around cmake install bug with ios projects
 find . -iregex ".*/.*-iphoneos/[^/]*.a" | xargs -J % cp -npv % ${lib_dir}/lib
+find . -iregex ".*/Export/cmake/[^/]*.cmake" | xargs -J % cp -npv % ${lib_dir}/cmake
 
 mkdir -p ${lib_dir}/lib-iphoneos
 cp -npv ${lib_dir}/lib/*.a ${lib_dir}/lib-iphoneos

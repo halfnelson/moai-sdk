@@ -9,7 +9,7 @@ set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -g -DNDEBUG -DANDROID_NDK -DDISABL
 
 set ( INCLUDES_MOAIANDROID
   "${MOAI_ROOT}/src/"
-  "${MOAI_ROOT}/src/config-default/"
+  "${CMAKE_BINARY_DIR}/config"
   "${MOAI_ROOT}/3rdparty"
  )
 

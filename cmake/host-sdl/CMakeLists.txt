@@ -10,7 +10,7 @@ endif ( BUILD_OSX )
 
 set ( INCLUDES_MOAIHOSTSDL 
   "${MOAI_ROOT}/src/"
-  "${MOAI_ROOT}/src/config-default/"
+  "${CMAKE_BINARY_DIR}/config"
   "${MOAI_ROOT}/src/host-sdl/"
   "${MOAI_ROOT}/3rdparty/sdl2-2.0.0/include"
    ${OPENGL_INCLUDE_DIRS}

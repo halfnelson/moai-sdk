@@ -3,7 +3,7 @@ project ( host-modules)
 
 set ( HOST_MODULES_INCLUDES 
   "${MOAI_ROOT}/src"
-  "${MOAI_ROOT}/src/config-default"
+  "${CMAKE_BINARY_DIR}/config"
 )
 
 # Use all cpp files in directory as source code

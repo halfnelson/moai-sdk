@@ -6,7 +6,7 @@ set (LINK_LIBS "")
 
 set ( MOAI_IPHONE_INCLUDES 
   "${MOAI_ROOT}/src/"
-  "${CMAKE_BINARY_DIR}/config"
+  
   "${MOAI_ROOT}/src/moai-iphone/"
   "${MOAI_ROOT}/3rdparty/crittercismiOS-4.0.6/CrittercismSDK"
   "${MOAI_ROOT}/3rdparty/facebookiOS-3.0.6.b/src"
@@ -16,6 +16,12 @@ set ( MOAI_IPHONE_INCLUDES
   "${MOAI_ROOT}/3rdparty/chartboostiOS-3.0.7"
   "${MOAI_ROOT}/3rdparty/adcolonyiOS-1911/Library"
 )
+
+if (HOST_ONLY)
+  set (MOAI_IPHONE_INCLUDES ${MOAI_IPHONE_INCLUDES} ${LIB_PATH}/include/config)
+else (HOST_ONLY)
+  set (MOAI_IPHONE_INCLUDE ${MOAI_IPHONE_INCLUDES} ${CMAKE_BINARY_DIR}/config)
+endif (HOST_ONLY)
 
 # Use all mm files in directory as source code
 file ( GLOB MOAI_IPHONE_SRC 

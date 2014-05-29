@@ -8,7 +8,7 @@ endif ( BUILD_ANDROID )
 
 set ( MOAI_ANDROID_INCLUDES 
   "${MOAI_ROOT}/src/"
-  "${MOAI_ROOT}/src/config-default/"
+  "${CMAKE_BINARY_DIR}/config"
  )
 
 include_directories ( 

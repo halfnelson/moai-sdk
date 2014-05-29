@@ -16,7 +16,7 @@ endif ( BUILD_OSX )
 
 set ( INCLUDES_MOAIHOSTTEST 
   "${MOAI_ROOT}/src/"
-  "${MOAI_ROOT}/src/config-default/"
+  "${CMAKE_BINARY_DIR}/config"
   "${MOAI_ROOT}/src/host-test/"
   ${OPENGL_INCLUDE_DIRS}
   ${GLUT_INCLUDE_DIRS}

@@ -32,7 +32,7 @@ else (HOST_ONLY)
    add_subdirectory( "${CMAKE_CURRENT_BINARY_DIR}/../bundle_res" "bundle_res")
    set ( INCLUDES_MOAIIOS
      "${MOAI_ROOT}/src/"
-     "${MOAI_ROOT}/src/config-default/"
+     "${CMAKE_BINARY_DIR}/config"
      "${MOAI_ROOT}/src/host-glut" 
    )
    include_directories (

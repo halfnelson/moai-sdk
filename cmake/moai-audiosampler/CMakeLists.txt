@@ -3,7 +3,7 @@ project ( moai-audiosampler )
 
 set ( MOAI_AUDIOSAMPLER_INCLUDES
   "${MOAI_ROOT}/src/"
-  "${MOAI_ROOT}/src/config-default/"
+  "${CMAKE_BINARY_DIR}/config"
   )
 
 include_directories (
