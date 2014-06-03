@@ -2,24 +2,39 @@ cmake_minimum_required(VERSION 2.8.5)
 
 project(host-sdl)
 
+ find_package( OpenGL REQUIRED )
+
 if ( BUILD_OSX )
   find_library ( APPLICATION_SERVICES_LIBRARY ApplicationServices )
   find_library ( CORE_SERVICES_LIBRARY CoreServices )
   find_package ( OpenGL REQUIRED )
 endif ( BUILD_OSX )
 
-set ( INCLUDES_MOAIHOSTSDL 
-  "${MOAI_ROOT}/src/"
-  "${CMAKE_BINARY_DIR}/config"
-  "${MOAI_ROOT}/src/host-sdl/"
-  "${MOAI_ROOT}/3rdparty/sdl2-2.0.0/include"
-   ${OPENGL_INCLUDE_DIRS}
-)
+if (HOST_ONLY)
+  get_filename_component(LIB_PATH ${LIB_PATH} ABSOLUTE)
+  get_filename_component(HOST_ROOT ${HOST_ROOT} ABSOLUTE)
+  include (${LIB_PATH}/cmake/libmoai.cmake)
+  message ("Building host project")
+  LINK_DIRECTORIES(${LIB_PATH}/lib)
+  set (CMAKE_CURRENT_SOURCE_DIR ${HOST_ROOT})
+  include_directories(${OPENGL_INCLUDE_DIRS})
+  set(CMAKE_SUPPRESS_REGENERATION TRUE)
+else (HOST_ONLY)
+  
+  set ( INCLUDES_MOAIHOSTSDL 
+    "${MOAI_ROOT}/src/"
+    "${CMAKE_BINARY_DIR}/config"
+    "${MOAI_ROOT}/src/host-sdl/"
+    "${MOAI_ROOT}/3rdparty/sdl2-2.0.0/include"
+     ${OPENGL_INCLUDE_DIRS}
+  )
 
-include_directories ( ${INCLUDES_MOAIHOSTSDL} )
+  include_directories ( ${INCLUDES_MOAIHOSTSDL} )
+  LINK_DIRECTORIES("${LUA_LIB_DIR}")
+  set ( CMAKE_CURRENT_SOURCE_DIR "${MOAI_ROOT}/src/host-sdl" )
 
-LINK_DIRECTORIES("${LUA_LIB_DIR}")
-set ( CMAKE_CURRENT_SOURCE_DIR "${MOAI_ROOT}/src/host-sdl" )
+endif (HOST_ONLY)
+
 
 # Use all cpp files in directory as source code
 file ( GLOB HOST_SDL_SRC "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.h" )

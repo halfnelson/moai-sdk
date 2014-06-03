@@ -7,7 +7,7 @@
 
 #include <moai-core/host.h>
 #include <host-modules/aku_modules.h>
-#include <host-sdl/SDLHost.h>
+#include "SDLHost.h"
 
 #include <SDL.h>
 
