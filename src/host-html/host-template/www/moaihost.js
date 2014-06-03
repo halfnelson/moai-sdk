@@ -360,11 +360,11 @@ MoaiJS.prototype.runFunc = function(func) {
     var that=this;
     D.all(this.loadedFileSystems).then(function(){
         console.log("MoaiJS Filesystem Loaded");
-        that.getEmscripten().addOnPreMain(function() {
-            that.hostinit();
-            func();
-        } );
-        that.emscripten.run();
+	   that.emscripten.run();	   
+	   that.hostinit();
+       func();
+       
+  	  
     }).rethrow();
 }
 
@@ -490,11 +490,6 @@ MoaiJS.prototype.OpenWindowFunc = function(title,width,height) {
 		this.onResolutionChange(width,height)
 	}
 	this.canvas.style.display = "block";
-
-   //if (width > height) {
-  //      $(this.canvas).parent().addClass("portrait");
-   // }
-
 	canvas.width = width;
 	canvas.height = height;
 	this.canvasScale = canvas.width/$(canvas).width();

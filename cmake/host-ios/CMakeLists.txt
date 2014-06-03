@@ -54,21 +54,7 @@ set ( IOS_HOST "${MOAI_ROOT}/src/host-ios")
 endif (HOST_ONLY)
 
 
-
-
-
-
-
-
-
-set ( MOAIIOS_RESOURCES
-  ${IOS_HOST}/Icon-72.png
-  ${IOS_HOST}/Icon-Small-50.png
-  ${IOS_HOST}/Icon-Small.png
-  ${IOS_HOST}/Icon-Small@2x.png
-  ${IOS_HOST}/Icon.png
-  ${IOS_HOST}/Icon@2x.png
-)
+file ( GLOB MOAIIOS_RESOURCES ${IOS_HOST}/*.png)
 
 SET_SOURCE_FILES_PROPERTIES (
   ${MOAIIOS_RESOURCES}
@@ -93,6 +79,13 @@ target_link_libraries ( moai
   moai-audiosampler
   moai-core
   zlcore
+)
+
+set_target_properties( moai PROPERTIES
+   XCODE_ATTRIBUTE_INSTALL_PATH "$(LOCAL_APPS_DIR)"
+   XCODE_ATTRIBUTE_SKIP_INSTALL "NO"
+   XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET "5.1"
+   XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES "NO"
 )
 
 macro(ADD_FRAMEWORKS appname fwnames)
