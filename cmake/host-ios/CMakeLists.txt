@@ -16,7 +16,7 @@ if (HOST_ONLY)
  message("INCLUDING LIBMOAI")
     include(${LIB_PATH}/cmake/libmoai.cmake)
    set (MOAI_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../")
-   set ( IOS_HOST "${MOAI_ROOT}/src/host-ios")
+   
     message("adding resources")
    add_subdirectory( "${CMAKE_CURRENT_BINARY_DIR}/bundle_res" "bundle_res")
    add_subdirectory( "../moai-iphone" "moai-iphone")
