@@ -70,11 +70,7 @@ if (NOT DISABLE_CHARTBOOST)
   set (LINK_LIBS ${LINK_LIBS} libChartboost)
 endif (NOT DISABLE_CHARTBOOST)
 
-set(ADCOLONY_LIB ${MOAI_ROOT}/3rdparty/adcolonyiOS-1911/Library/libAdColony.a)
-add_library(libAdColony STATIC IMPORTED)
-set_property(TARGET libAdColony PROPERTY IMPORTED_LOCATION ${ADCOLONY_LIB})
-
-install(FILES ${ADCOLONY_LIB} DESTINATION lib)
+add_subdirectory(moai-ios-adcolony)
 
 if (NOT DISABLE_ADCOLONY)
   set (LINK_LIBS ${LINK_LIBS} libAdColony)
