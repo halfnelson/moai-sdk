@@ -1,4 +1,5 @@
 # Welcome to Moai!
+This line was added to test the CI server :)
 
 Thanks for checking out the Moai source code. Here's the scoop.
 
