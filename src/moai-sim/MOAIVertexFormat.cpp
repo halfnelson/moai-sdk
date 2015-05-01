@@ -131,7 +131,7 @@ int MOAIVertexFormat::_getVertexSize ( lua_State* L ) {
 //================================================================//
 
 //----------------------------------------------------------------//
-void MOAIVertexFormat::Bind ( void* buffer ) const {
+void MOAIVertexFormat::Bind ( const void* buffer ) const {
 
 	if ( MOAIGfxDevice::Get ().IsProgrammable ()) {
 		this->BindProgrammable ( buffer );
@@ -142,7 +142,7 @@ void MOAIVertexFormat::Bind ( void* buffer ) const {
 }
 
 //----------------------------------------------------------------//
-void MOAIVertexFormat::BindFixed ( void* buffer ) const {
+void MOAIVertexFormat::BindFixed ( const void* buffer ) const {
 	UNUSED ( buffer );
 
 	#if USE_OPENGLES1
@@ -182,7 +182,7 @@ void MOAIVertexFormat::BindFixed ( void* buffer ) const {
 }
 
 //----------------------------------------------------------------//
-void MOAIVertexFormat::BindProgrammable ( void* buffer ) const {
+void MOAIVertexFormat::BindProgrammable ( const void* buffer ) const {
 
 	for ( u32 i = 0; i < this->mTotalAttributes; ++i ) {
 		
@@ -356,6 +356,55 @@ MOAIVertexFormat::MOAIVertexFormat () :
 
 //----------------------------------------------------------------//
 MOAIVertexFormat::~MOAIVertexFormat () {
+}
+
+//----------------------------------------------------------------//
+void MOAIVertexFormat::PrintVertices ( MOAIStream& stream, size_t size ) const {
+
+	u32 total = this->mVertexSize ? ( size / this->mVertexSize ) : 0;
+	if ( !total ) return;
+
+	for ( u32 i = 0; i < total; ++i ) {
+	
+		printf ( "vertex %d:\n", i );
+		
+		for ( u32 j = 0; j < this->mTotalAttributes; ++j ) {
+			MOAIVertexAttribute& attribute = this->mAttributes [ j ];
+			
+			printf ( "  %d: ", j );
+			
+			for ( u32 k = 0; k < attribute.mSize; ++k ) {
+			
+				if ( k ) {
+					printf ( ", " );
+				}
+			
+				switch ( attribute.mType  ) {
+				
+					case ZGL_TYPE_BYTE:
+						printf ( "%d", ( int )stream.Read < s8 >( 0 ));
+						break;
+					
+					case ZGL_TYPE_UNSIGNED_BYTE:
+						printf ( "%d", ( int )stream.Read < u8 >( 0 ));
+						break;
+					
+					case ZGL_TYPE_SHORT:
+						printf ( "%d", ( int )stream.Read < s16 >( 0 ));
+						break;
+					
+					case ZGL_TYPE_UNSIGNED_SHORT:
+						printf ( "%d", ( int )stream.Read < u16 >( 0 ));
+						break;
+					
+					case ZGL_TYPE_FLOAT:
+						printf ( "%f", ( float )stream.Read < float >( 0 ));
+						break;
+				}
+			}
+			printf ( "\n" );
+		}
+	}
 }
 
 //----------------------------------------------------------------//
