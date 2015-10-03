@@ -102,6 +102,28 @@ int MOAIGfxBuffer::_makeDirty ( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
+// TODO: doxygen
+int MOAIGfxBuffer::_printIndices ( lua_State* L ) {
+	MOAI_LUA_SETUP ( MOAIGfxBuffer, "U" )
+	
+	u32 indexSize = state.GetValue < u32 >( 2, 4 );
+	self->PrintIndices ( indexSize );
+	return 0;
+}
+
+//----------------------------------------------------------------//
+// TODO: doxygen
+int MOAIGfxBuffer::_printVertices ( lua_State* L ) {
+	MOAI_LUA_SETUP ( MOAIGfxBuffer, "U" )
+	
+	MOAIVertexFormat* format = state.GetLuaObject < MOAIVertexFormat >( 2, true );
+	if ( format ) {
+		self->PrintVertices ( *format );
+	}
+	return 0;
+}
+
+//----------------------------------------------------------------//
 /**	@lua	release
 	@text	Releases any memory associated with buffer.
 	
@@ -267,12 +289,20 @@ void MOAIGfxBuffer::OnGPUBind () {
 		
 		if ( renew ) {
 		
-			void* buffer = zglMapBuffer ( this->mTarget );
-			if ( buffer ) {
-				this->Seek ( 0, SEEK_SET );
-				this->ReadBytes ( buffer, this->GetLength ());
-			}
-			zglUnmapBuffer ( this->mTarget );
+			// TODO: There are a few different ways to approach updating buffers with varying performance
+			// on different platforms. The approach here is just to multi-buffer the VBO and replace its
+			// contents via zglBufferSubData when they change. The TODO here is to do performance tests
+			// on multiple devices, evaluate other approaches and possible expose the configuration of
+			// those to the end user via Lua.
+		
+			zglBufferSubData ( this->mTarget, 0, this->GetLength (), this->mData );
+		
+//			void* buffer = zglMapBuffer ( this->mTarget );
+//			if ( buffer ) {
+//				this->Seek ( 0, SEEK_SET );
+//				this->ReadBytes ( buffer, this->GetLength ());
+//			}
+//			zglUnmapBuffer ( this->mTarget );
 			this->mIsDirty = false;
 		}
 	}
@@ -297,6 +327,7 @@ bool MOAIGfxBuffer::OnGPUCreate () {
 			zglBufferData ( this->mTarget, this->GetLength (), 0, hint );
 			zglBindBuffer ( this->mTarget, 0 ); // OK?
 			
+			this->mIsDirty = true;
 			count++;
 		}
 		this->mVBOs [ i ] = vbo;
@@ -328,6 +359,34 @@ void MOAIGfxBuffer::OnGPUUnbind () {
 }
 
 //----------------------------------------------------------------//
+void MOAIGfxBuffer::PrintIndices ( u32 indexSize ) {
+
+	size_t cursor = this->GetCursor ();
+	u32 length = cursor / indexSize;
+	
+	if ( length ) {
+		this->Seek ( 0, SEEK_SET );
+		for ( u32 i = 0; i < length; ++i ) {
+		
+			u32 v = indexSize == 4 ? this->Read < u32 >( 0 ) : this->Read < u16 >( 0 );
+			printf ( "%d: %d\n", i, v );
+		}
+		this->Seek ( cursor, SEEK_SET );
+	}
+}
+
+//----------------------------------------------------------------//
+void MOAIGfxBuffer::PrintVertices ( MOAIVertexFormat& vertexFormat ) {
+
+	size_t cursor = this->GetCursor ();
+	if ( cursor ) {
+		this->Seek ( 0, SEEK_SET );
+		vertexFormat.PrintVertices ( *this, cursor );
+		this->Seek ( cursor, SEEK_SET );
+	}
+}
+
+//----------------------------------------------------------------//
 void MOAIGfxBuffer::RegisterLuaClass ( MOAILuaState& state ) {
 
 	MOAIGfxResource::RegisterLuaClass ( state );
@@ -348,6 +407,8 @@ void MOAIGfxBuffer::RegisterLuaFuncs ( MOAILuaState& state ) {
 		{ "countElements",			_countElements },
 		{ "load",					_load },
 		{ "makeDirty",				_makeDirty },
+		{ "printIndices",			_printIndices },
+		{ "printVertices",			_printVertices },
 		{ "release",				_release },
 		{ "reserve",				_reserve },
 		{ "reserveVBOs",			_reserveVBOs },

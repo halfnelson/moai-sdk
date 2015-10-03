@@ -7,15 +7,14 @@
 	#include "TargetConditionals.h"
 
 	#if TARGET_OS_IPHONE
-	
-		#define MOAI_PHONE
+
 		#define MOAI_OS_IPHONE
 
-		#if TARGET_IPHONE_SIMULATOR
-			#define MOAI_OS_IPHONE_SIMULATOR
-		#else
-			#define MOAI_OS_IPHONE_DEVICE
-		#endif
+//		#if TARGET_IPHONE_SIMULATOR
+//			#define MOAI_OS_IPHONE_SIMULATOR
+//		#else
+//			#define MOAI_OS_IPHONE_DEVICE
+//		#endif
 
 	#else
 		#define MOAI_OS_OSX
@@ -24,18 +23,17 @@
 #elif defined( _WIN32 )
 	#define MOAI_OS_WINDOWS
 
-#elif defined( __linux )
+#elif defined( EMSCRIPTEN )
+	#define MOAI_OS_HTML
 
+#elif defined( __linux )
 	#ifdef ANDROID
-		#define MOAI_PHONE
 		#define MOAI_OS_ANDROID
 	#else
 		#define MOAI_OS_LINUX
 	#endif
-
 #else
 	#define MOAI_OS_UNKNOWN
-
 #endif
 
 #ifdef __QNX__
@@ -96,7 +94,8 @@
 	#endif
 #endif
 
-#ifdef MOAI_OS_LINUX
+#if defined ( MOAI_OS_LINUX ) || defined ( MOAI_OS_OSX )
+	#define MOAI_HAS_UNISTD
 	#include <unistd.h>
 #endif
 

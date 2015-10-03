@@ -14,6 +14,10 @@ end
 
 
 function findAndroidSdk()
+  
+  local fromenv = os.getenv("ANDROID_SDK_ROOT") or os.getenv("ANDROID_HOME") or os.getenv("ANDROID_SDK_HOME")
+  if fromenv then return fromenv end
+  
   local isWindows = MOAIEnvironment.osBrand == 'Windows'
   if isWindows then
     local appdata = os.getenv("LOCALAPPDATA")
@@ -31,7 +35,7 @@ function findAndroidSdk()
   
   if MOAIEnvironment.osBrand == "linux" then
     local home = os.getenv("HOME")
-    local sdkpath = home..""
+    local sdkpath = home.."/android-sdk-linux"
     if (home and MOAIFileSystem.checkPathExists(sdkpath)) then
       return sdkpath
     end
@@ -109,6 +113,8 @@ copyhostfiles = function()
     MOAIFileSystem.copy(MOAI_SDK_HOME..'src/moai-android/moai.cpp', output..'app/src/main/jni/moai.cpp')
 
     MOAIFileSystem.copy(hostmodules, output..'/app/src/main/jni/host-modules')
+
+    MOAIFileSystem.copy(output..'/app/src/main/jni/host-modules/aku_plugins.cpp.in',output..'/app/src/main/jni/host-modules/aku_plugins.cpp')
 
     --don't want these ones
     MOAIFileSystem.deleteFile(output..'app/src/main/jni/host-modules/aku_modules_ios.h')
@@ -267,13 +273,13 @@ configureHost = function()
     --libroot
   util.replaceInFiles ({
 	  [ util.wrap(pairs, hostfiles) ]  = {
-      ['@PACKAGE@'] = 'com.getmoai.androidhost', --hardcoded, this package doesn't need to be unique per app anymore
+      ['package com.ziplinegames.moai'] = 'package com.getmoai.androidhost', --hardcoded, this package doesn't need to be unique per app anymore
       ['@WORKING_DIR@'] = 'bundle/assets'
     },
 		[ output .. 'gradle.properties' ] = {
-			[ 'moaiLibRoot=[^\n]+' ]= "moaiLibRoot=./lib",
-			[ 'moaiLuaRoot=[^\n]+' ]= "moaiLuaRoot="..luasrc,
-      [ 'moaiModules=[^\n]+' ]= "moaiModules="..modulestr
+			[ 'moaiLibRoot=[^\n]*' ]= "moaiLibRoot=./lib",
+			[ 'moaiLuaRoot=[^\n]*' ]= "moaiLuaRoot="..luasrc,
+      [ 'moaiModules=[^\n]*' ]= "moaiModules="..modulestr
 		},
     [ output .. 'app/build.gradle'] = {
       [ 'applicationId "[^"]+"']= 'applicationId "'..hostconfig['ApplicationId']..'"'
@@ -287,6 +293,9 @@ configureHost = function()
     [ output .. 'local.properties' ] = {
       [ 'sdk.dir=[^\n]+' ]= "sdk.dir="..sdkdir,
       [ 'ndk.dir=[^\n]+' ]= "ndk.dir="..ndkdir
+    },
+    [output..'app/src/main/jni/host-modules/aku_plugins.cpp'] = {
+      [ '@[^@]+@' ] = ""
     }
 	})
   
