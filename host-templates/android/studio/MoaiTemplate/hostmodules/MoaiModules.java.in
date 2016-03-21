@@ -1,0 +1,14 @@
+package com.moaisdk.hostmodules;
+
+/* THIS IS A GENERATED FILE, MANUAL EDITS WILL BE LOST
+ * It is populated by moaisettings.gradle in the root of your project
+  *
+  * */
+public class MoaiModules {
+
+    public static String [] sExternalClasses = {
+    	"com.moaisdk.core.MoaiKeyboard",
+		"com.moaisdk.core.MoaiMoviePlayer",
+           @EXTERNAL_CLASSES@
+    };
+}

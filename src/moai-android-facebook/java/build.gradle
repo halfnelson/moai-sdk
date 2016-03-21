@@ -1,0 +1,26 @@
+apply plugin: 'com.android.library'
+
+android {
+     sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs += 'src'
+        }
+    }
+}
+
+moai {
+    nativeLibs = [ "moai-android-facebook" ]
+    moduleClass = "com.moaisdk.facebook.MoaiFacebook"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.facebook.android:facebook-android-sdk:4.1.0'
+    compile project(':core')
+}

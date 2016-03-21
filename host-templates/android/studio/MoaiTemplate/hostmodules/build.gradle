@@ -1,0 +1,32 @@
+apply plugin: 'com.android.library'
+
+android {
+      sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs += 'src'
+        }
+    }
+}
+
+task createModulesJava  {
+    inputs.file project.file("MoaiModules.java.in")
+    inputs.file project.rootProject.file("gradle.properties")
+    outputs.file project.file("src/com/moaisdk/hostmodules/MoaiModules.java")
+    doLast {
+        def classes = project.rootProject.allprojects.collect { p ->
+            return p.extensions.findByName('moai') ? p.moai.moduleClass : null
+        }
+        classes = classes.grep { c -> c != null }
+        def templateFile = project.file("MoaiModules.java.in")
+        def javaFile = project.file("src/com/moaisdk/hostmodules/MoaiModules.java")
+
+        def src = templateFile.text.replaceFirst('@EXTERNAL_CLASSES@',
+                classes.collect {c-> '"'+c+'"'}.join(",\n")
+        )
+
+        javaFile.text = src
+    }
+}
+
+preBuild.dependsOn createModulesJava

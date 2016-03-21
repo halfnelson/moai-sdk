@@ -1,3 +1,5 @@
+
 apply from: 'moaisettings.gradle'
 
 include ':app'
+include ':hostmodules'

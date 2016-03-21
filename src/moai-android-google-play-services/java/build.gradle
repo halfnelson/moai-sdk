@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+
+android {
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs += 'src'
+        }
+    }
+}
+
+moai {
+    nativeLibs = [ "moai-android-google-play-services" ]
+    moduleClass = "com.moaisdk.googleplayservices.MoaiGooglePlayServices"
+}
+
+dependencies {
+    compile 'com.google.android.gms:play-services-games:8.1.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile project(':core')
+}

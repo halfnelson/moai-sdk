@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+
+android {
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs += 'src'
+        }
+    }
+}
+
+moai {
+    nativeLibs = [ "moai-android-vungle" ]
+    moduleClass = "com.moaisdk.vungle.MoaiVungle"
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile files('../../../3rdparty-android/vungle-1.3.11/lib/vungle-publisher-1.3.11.jar')
+    compile project(':core')
+}
