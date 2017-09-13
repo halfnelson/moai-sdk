@@ -114,8 +114,8 @@ The rocket has appeared onscreen, now it’s time to make it move. With this ste
 The next section will take the previous code and add a new function into the makeRocket function, and also change the coordinates of the base to a constant. For organization’s sake, place your constants at the top of the code, right above the window initialization.
 
 ```lua
-baseX = 0
-baseY = -240
+BASE_X = 0
+BASE_Y = -240
 ```
 
 Now that the constants are in, change the base creation code to refer to them.
@@ -123,12 +123,12 @@ Now that the constants are in, change the base creation code to refer to them.
 ```lua
 base = MOAIProp2D.new ()
 base:setDeck ( lobsterGfx )
-base:setLoc ( baseX, baseY ) -- New base coordinates
+base:setLoc ( BASE_X, BASE_Y ) -- New base coordinates
 
 layer:insertProp ( base )
 ```
 
-This code just changed the way that the base gets its location. For clarity later on, you can just use baseX and baseY. Now to make the rocket move!
+This code just changed the way that the base gets its location. For clarity later on, you can just use BASE_X and BASE_Y. Now to make the rocket move!
 
 ```lua
 function makeRocket ()
@@ -144,7 +144,7 @@ function makeRocket ()
    self.thread:run (
         
      function ()
-       MOAIThread.blockOnAction ( self:seekLoc ( baseX, baseY, 3.0, MOAIEaseType.LINEAR ))
+       MOAIThread.blockOnAction ( self:seekLoc ( BASE_X, BASE_Y, 3.0, MOAIEaseType.LINEAR ))
      end    
    )
  end
@@ -166,7 +166,7 @@ function rocket:launch ()
   self.thread:run (
         
     function ()
-      MOAIThread.blockOnAction ( self:seekLoc ( baseX, baseY, 3.0, MOAIEaseType.LINEAR ))
+      MOAIThread.blockOnAction ( self:seekLoc ( BASE_X, BASE_Y, 3.0, MOAIEaseType.LINEAR ))
     end 
   )
 end
@@ -174,7 +174,7 @@ end
 
 The rocket:launch function contains a MOAICoroutine.blockOnAction and inside that the rocket's movement starts.
 
-`self:seekLoc ( baseX, baseY, 3.0, MOAIEaseType.LINEAR ) )` will make the rocket (self) seek the location (seekLoc) of baseX (for x coords), baseY (for y coords) with a timer of 3.0 (3 seconds from start to finish), and an ease type of linear (meaning the speed goes at a constant speed.) These all get run in a thread as part of the rocket:launch function.
+`self:seekLoc ( BASE_X, BASE_Y, 3.0, MOAIEaseType.LINEAR ) )` will make the rocket (self) seek the location (seekLoc) of BASE_X (for x coords), BASE_Y (for y coords) with a timer of 3.0 (3 seconds from start to finish), and an ease type of linear (meaning the speed goes at a constant speed.) These all get run in a thread as part of the rocket:launch function.
 
 ```lua
 rocket = makeRocket ()  -- Make the rocket
@@ -247,7 +247,7 @@ function rocket:launch ()
             
    function ()
                 
-     MOAIThread.blockOnAction ( self:seekLoc ( baseX, baseY, 3.0, MOAIEaseType.LINEAR ))
+     MOAIThread.blockOnAction ( self:seekLoc ( BASE_X, BASE_Y, 3.0, MOAIEaseType.LINEAR ))
                 
      layer:removeProp ( self )
             
@@ -355,7 +355,7 @@ end
 
 function rocket:main ()
 
-MOAICoroutine.blockOnAction ( self:seekLoc ( targetX, targetY, travelTime,   MOAIEaseType.LINEAR ))
+MOAICoroutine.blockOnAction ( self:seekLoc ( targetX, targetY, travelTime, MOAIEaseType.LINEAR ))
 
 if self.isAlly then
 self:explode ( 64 )
@@ -375,7 +375,7 @@ end
 
 function launchEnemyRocket ( startX, startY )
 
-makeRocket ( false, startX, startY, BASE_X, BASE_Y, math.random (  MIN_ENEMY_SPEED, MAX_ENEMY_SPEED ))
+makeRocket ( false, startX, startY, BASE_X, BASE_Y, math.random ( MIN_ENEMY_SPEED, MAX_ENEMY_SPEED ))
 end
 
 --------------------------------
@@ -463,13 +463,12 @@ rocket:setLoc ( startX, startY )
 rocket:setRot ( angle ( startX, startY, targetX, targetY ) + 90 )
 rocket.isAlly = isAlly
 
-<source lang="Lua">
 if not isAlly then
  enemyRockets [ rocket ] = rocket
 end
 ```
 
-And now the enemy rockets have been placed into a table! Now it's time to create a hit detection function for the rocket explosion. This will need to be placed inside the explosion:makeExplosion function, but above the explosion:main function.
+And now the enemy rockets have been placed into a table! Now it's time to create a hit detection function for the rocket explosion. This will need to be placed inside the explosion:makeExplosion function after layer:insertProp ( explosion ).
 
 ```lua
 function explosion:checkHit ( prop )
@@ -494,7 +493,7 @@ function rocket:explode ( size )
 end
 ```
 
-After that, just edit the explosion:main function to run the new checkHit function.
+After that, we need to create an explosion:main function to run the new checkHit function. We can put it after the explosion:checkHit function.
 
 ```lua
 function explosion:main ()
@@ -570,7 +569,7 @@ font:loadFromTTF ( "arialbd.ttf",
 
 local textbox = MOAITextBox.new ()
 textbox:setFont ( font )
-textbox:setTextSize ( font:getScale ())
+textbox:setTextSize ( font.getScale )
 textbox:setRect ( -160, -80, 160, 80 )
 textbox:setAlignment ( MOAITextBox.CENTER_JUSTIFY )
 textbox:setYFlip ( true )
@@ -788,7 +787,7 @@ mainThread:run (
 
    local textbox = MOAITextBox.new ()
    textbox:setFont ( font )
-   textbox:setTextSize ( font:getScale ())
+   textbox:setTextSize ( font.getScale )
    textbox:setRect ( -160, -80, 160, 80 )
    textbox:setAlignment ( MOAITextBox.CENTER_JUSTIFY )
    textbox:setYFlip ( true )
